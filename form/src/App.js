@@ -1,28 +1,37 @@
 import React, {Component} from "react"
 
-
 class App extends Component {
     constructor() {
         super()
         this.state = {
             firstname : "",
             lastname : "",
-            age : "",
+            age : 0,
             gender : "",
             destination:"",
-            Seafood : false,
-            vegetarian : false, 
-            kosher : false,
-            lactosefree : false
+            dietaryRestriction : {Seafood : false,
+                                  vegetarian : false, 
+                                  kosher : false,
+                                  lactosefree : false}
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
     handleChange(event){
         const {name,value, type, checked} = event.target
-       type === "checkbox" ? this.setState({[name] : checked}) :  this.setState(
-            {[name] : value}
-        )
+       type === "checkbox" ? 
+      this.setState(prevState => {
+                return( 
+                {dietaryRestriction :
+                  {
+                    ...prevState.dietaryRestriction,
+                      [name] : checked
+                  }
+                })
+                           
+        }) 
+       :  
+       this.setState({[name] : value})
     }
     
     handleSubmit(event){
@@ -38,10 +47,10 @@ class App extends Component {
             + 
             'Destination is : ' + this.state.destination +'\n'
             + 
-            'Dietary restrictions : ' +'\n' + (this.state.Seafood ? " Seafood, " : null) +'\n' +
-                    (this.state.vegetarian ? " vegetarian, " : null) +'\n' +
-                    (this.state.kosher ? " kosher, " : null +'\n') +
-                    (this.state.lactosefree ? " lactosefree, " : null) +'\n'
+            'Dietary restrictions : ' +'\n' + (this.state.dietaryRestriction.Seafood ? " Seafood, " : "") +'\n' +
+                    (this.state.dietaryRestriction.vegetarian ? " vegetarian, " : "") +'\n' +
+                    (this.state.dietaryRestriction.kosher ? " kosher, " : "" +'\n') +
+                    (this.state.dietaryRestriction.lactosefree ? " lactosefree " : "") +'\n'
          )
         
         
@@ -49,7 +58,7 @@ class App extends Component {
     }
     render() {
         return (
-            <main>
+            <main className = "content">
                 <form onSubmit = {this.handleSubmit}>
                 <h3>Personal Info :</h3><br/>
                     <input 
@@ -102,6 +111,7 @@ class App extends Component {
                         name = "destination"
                         onChange = {this.handleChange}
                         >
+                        <option value="">-- Please Choose a destination --</option>
                         <option value ="大阪（おおさか）"> 大阪（おおさか）</option>
                         <option value ="名古屋（なごや）"> 名古屋（なごや）</option>
                         <option value ="横浜（よこはま）"> 横浜（よこはま）</option>
@@ -114,7 +124,7 @@ class App extends Component {
                         <input 
                         type ="checkbox" 
                         name = "Seafood" 
-                        checked = {this.state.Seafood} 
+                        checked = {this.state.dietaryRestriction.Seafood} 
                         onChange = {this.handleChange}/> Seafood </label>
                     <br />
                     
@@ -122,7 +132,7 @@ class App extends Component {
                         <input 
                         type ="checkbox" 
                         name = "vegetarian" 
-                        checked = {this.state.vegetarian} 
+                        checked = {this.state.dietaryRestriction.vegetarian} 
                         onChange = {this.handleChange}/> vegetarian </label>
                     <br />
                     
@@ -130,7 +140,7 @@ class App extends Component {
                         <input 
                         type ="checkbox" 
                         name = "kosher" 
-                        checked = {this.state.kosher} 
+                        checked = {this.state.dietaryRestriction.kosher} 
                         onChange = {this.handleChange}/> kosher </label>
                     <br />
                     
@@ -138,7 +148,7 @@ class App extends Component {
                         <input 
                         type ="checkbox" 
                         name = "lactosefree" 
-                        checked = {this.state.lactosefree} 
+                        checked = {this.state.dietaryRestriction.lactosefree} 
                         onChange = {this.handleChange}/> lactosefree </label>
                     {/* Create check boxes for dietary restrictions here */}
                     <br />
@@ -146,19 +156,21 @@ class App extends Component {
                     <button type = "submit">Submit</button>
                 </form>
                 <hr />
-                <h2>Entered information:</h2>
-                <p>Your name: {this.state.firstname} {this.state.lastname}</p>
-                <p>Your age: {this.state.age}</p>
-                <p>Your gender: {this.state.gender}</p>
-                <p>Your destination: {this.state.destination}</p>
-                <p>
-                    Your dietary restrictions: 
-                    {this.state.Seafood ? " Seafood, " : null}
-                    {this.state.vegetarian ? " vegetarian, " : null}
-                    {this.state.kosher ? " kosher, " : null}
-                    {this.state.lactosefree ? " lactosefree, " : null}
-                    {/* Dietary restrictions here, comma separated */}
-                </p>
+                <div className="info">
+                    <h2>Entered information:</h2>
+                    <p>Your name: {this.state.firstname} {this.state.lastname}</p>
+                    <p>Your age: {this.state.age}</p>
+                    <p>Your gender: {this.state.gender}</p>
+                    <p>Your destination: {this.state.destination}</p>
+                    <p>
+                        Your dietary restrictions: 
+                        {this.state.dietaryRestriction.Seafood ? " Seafood, " : null}
+                        {this.state.dietaryRestriction.vegetarian ? " vegetarian, " : null}
+                        {this.state.dietaryRestriction.kosher ? " kosher, " : null}
+                        {this.state.dietaryRestriction.lactosefree ? " lactosefree, " : null}
+                        {/* Dietary restrictions here, comma separated */}
+                    </p>
+                  </div>
             </main>
         )
     }
