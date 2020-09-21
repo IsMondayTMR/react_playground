@@ -1,14 +1,14 @@
 import React from "react"
-import Context from "./Contexxt"
+import {UserContextConsumer} from "./Contexxt"
 
 function Header() {
     return (
         <header>
-            <Context.Consumer>
-                {username => (
-                    <p>Welcome, {username}!</p>
+            <UserContextConsumer>
+                {obj => (
+                    <p>Welcome, {obj.UN}!</p>
                 )}
-            </Context.Consumer>
+            </UserContextConsumer>
 
         </header>
     )

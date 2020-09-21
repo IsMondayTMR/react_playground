@@ -1,5 +1,21 @@
-import React from "react"
+import React, { Component } from "react"
 
-const Context = React.createContext()
+const {Provider,Consumer} = React.createContext()
 
-export default Context
+class UserContextProvider extends Component{
+    state = {
+        name : "bob"
+    }
+
+    ChangeName = (username)=>{
+        this.setState({name: username})
+    }
+    render(){
+        return(
+            <Provider value = {{UN : this.state.name, ChangeName : this.ChangeName}}>
+                    {this.props.children}
+                </Provider>
+        )
+    }
+}
+export  {UserContextProvider, Consumer as UserContextConsumer}

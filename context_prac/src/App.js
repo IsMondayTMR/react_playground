@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import Context from "./Contexxt"
+import {UserContextConsumer} from "./Contexxt"
 import Header from "./Header"
 
     /**
@@ -31,24 +31,30 @@ class App extends Component {
             return (
                 <div>
                     <Header />
-                    <main>
-                        <Context.Consumer>
-                            {username => (
-                                <p className="main">No new notifications, {username}! 🎉</p>
+                    
+                        <UserContextConsumer>
+                            {obj => (
+                                <main>
+                                    <p className="main">No new notifications, {obj.UN}! 🎉</p>
+
+                                                <input
+                                        type="text"
+                                        name="new_userName"
+                                        placeholder="New username"
+                                        value={this.state.new_userName}
+                                        onChange={this.newname}
+                                    />
+                                    <button onClick = {()=>{obj.ChangeName(this.state.new_userName)}}>Change Username</button>
+                                </main>
                             )}
-                        </Context.Consumer>
+
+                            
+                        </UserContextConsumer>
                    
-                    </main>
+                
                     
                     
-                    <input
-                        type="text"
-                        name="new_userName"
-                        placeholder="New username"
-                        value={this.state.new_userName}
-                        onChange={this.newname}
-                    />
-                    <button>Change Username</button>
+                    
                     
                 </div>
           )}
