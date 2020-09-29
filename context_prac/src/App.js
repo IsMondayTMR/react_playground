@@ -1,5 +1,5 @@
-import React, { Component } from "react"
-import {UserContextConsumer} from "./Contexxt"
+import React, {useState,useContext} from "react"
+import {nameContext} from "./Contexxt"
 import Header from "./Header"
 
     /**
@@ -18,46 +18,28 @@ import Header from "./Header"
      */
 
 
-class App extends Component {
-        state ={
-            new_userName  : ""
-        }
-        newname =(e)=>{
-            const {name, value} = e.target
-            this.setState({[name]:value})
-        }
-         render() {
+function App (props) {
+        const [new_userName, set_new_userName] = useState("")
 
+        const {name,ChangeName} = useContext(nameContext)
+    
             return (
                 <div>
                     <Header />
-                    
-                        <UserContextConsumer>
-                            {obj => (
-                                <main>
-                                    <p className="main">No new notifications, {obj.UN}! 🎉</p>
+                        <main>
+                            <p className="main">No new notifications, {name}! 🎉</p>
 
-                                                <input
-                                        type="text"
-                                        name="new_userName"
-                                        placeholder="New username"
-                                        value={this.state.new_userName}
-                                        onChange={this.newname}
-                                    />
-                                    <button onClick = {()=>{obj.ChangeName(this.state.new_userName)}}>Change Username</button>
-                                </main>
-                            )}
+                            <input
+                                type="text"
+                                placeholder="New username"
+                                value={new_userName}
+                                onChange={e => set_new_userName(e.target.value)} 
+                            />
+                            <button onClick = {()=>{ChangeName(new_userName)}}>Change Username</button>
+                        </main>
 
-                            
-                        </UserContextConsumer>
-                   
-                
-                    
-                    
-                    
-                    
                 </div>
-          )}
+          )
 }
 
 export default App

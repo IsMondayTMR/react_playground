@@ -1,21 +1,18 @@
-import React, { Component } from "react"
+import React, {useState } from "react"
 
-const {Provider,Consumer} = React.createContext()
+const nameContext = React.createContext()
 
-class UserContextProvider extends Component{
-    state = {
-        name : "bob"
-    }
+function UserContextProvider (props){
 
-    ChangeName = (username)=>{
-        this.setState({name: username})
+    const [name, setName] = useState("bob")
+
+    function ChangeName(username){
+        setName(username)
     }
-    render(){
-        return(
-            <Provider value = {{UN : this.state.name, ChangeName : this.ChangeName}}>
-                    {this.props.children}
-                </Provider>
-        )
-    }
+    return(
+        <nameContext.Provider value = {{name , ChangeName}}>
+                {props.children}
+        </nameContext.Provider>
+    )
 }
-export  {UserContextProvider, Consumer as UserContextConsumer}
+export  {UserContextProvider,nameContext}
